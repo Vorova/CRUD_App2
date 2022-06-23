@@ -1,5 +1,6 @@
 package com.vorova.model;
 
+
 import javax.persistence.*;
 
 @Entity
