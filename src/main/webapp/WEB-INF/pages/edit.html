@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit user</title>
+</head>
+<body>
+<form th:action="@{/save}" th:object="${user}" th:method="post">
+    <input type="number" name="id" th:field="*{id}" hidden>
+    <input type="text" name="name" th:field="*{name}">
+    <input type="text" name="email" th:field="*{email}">
+    <input type="submit" value="save!">
+</form>
+</body>

@@ -1,51 +1,52 @@
 package com.vorova.dao;
 
 import com.vorova.model.User;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Repository
 public class UserDaoImp implements UserDao{
 
-    private final SessionFactory sessionFactory;
-    
+    private final EntityManagerFactory emf;
+
     @Autowired
-    public UserDaoImp(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public UserDaoImp(EntityManagerFactory emf) {
+        this.emf = emf;
     }
 
     @Override
     public List<User> allUsers() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from User").list();
+        String sql = "from User";
+        EntityManager entityManager = emf.createEntityManager();
+        return entityManager.createQuery(sql).getResultList();
     }
 
     @Override
     public void add(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(user);
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.persist(user);
     }
 
     @Override
-    public void delete(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.remove(user);
+    public void delete(long id) {
+        EntityManager entityManager = emf.createEntityManager();
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
 
     @Override
     public void edit(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(user);
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.refresh(user);
     }
 
     @Override
     public User getById(long id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(User.class, id);
+        EntityManager entityManager = emf.createEntityManager();
+        return entityManager.find(User.class, id);
     }
 }

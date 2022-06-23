@@ -1,10 +1,8 @@
 package com.vorova.service;
 
 import com.vorova.dao.UserDao;
-import com.vorova.dao.UserDaoImp;
 import com.vorova.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,11 +11,15 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> allUsers() {
         return userDao.allUsers();
     }
@@ -30,8 +32,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void delete(User user) {
-        userDao.delete(user);
+    public void delete(long id) {
+        userDao.delete(id);
     }
 
     @Override
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getById(long id) {
         return userDao.getById(id);
     }
