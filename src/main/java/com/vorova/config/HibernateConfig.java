@@ -31,12 +31,10 @@ public class HibernateConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManager() {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-
         emf.setDataSource(dataSource());
         emf.setPackagesToScan("com.vorova.model");
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         emf.setJpaProperties(properties());
-
         return emf;
     }
 
