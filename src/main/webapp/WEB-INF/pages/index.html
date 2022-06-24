@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head lang="ru">
+    <title>List users</title>
+</head>
+<body>
+
+<h2>All Users</h2>
+<table border="1px">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>email</th>
+        <th>option</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <a th:href="@{'/edit/' + ${user.id}}">edit</a>
+            <a th:href="@{'/delete/' + ${user.id}}">delete</a>
+        </td>
+    </tr>
+</table>
+<hr>
+<h2>Add new User</h2>
+<form th:action="@{/add}" th:object="${user}" th:method="post">
+    <input type="text" name="name" placeholder="user name" th:field="*{name}"/>
+    <input type="text" name="email" placeholder="user email" th:field="*{email}">
+    <input type="submit" value="create!"/>
+</form>
+</body>
+</html>
